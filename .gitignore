@@ -27,6 +27,10 @@ Thumbs.db
 *.db
 *.duckdb
 
+#CSV Files
+data/
+*.csv
+
 # Logs / reports / generated artifacts
 reports/
 *.log
