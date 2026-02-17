@@ -11,7 +11,7 @@ def ingest_csv(path : str):
     INSERT INTO events VALUES (? , ? , ? , ? , ? , ? , ? )
 """,(
         str(uuid.uuid4(),
-        row["incident_ud"]),
+        row["incident_id"]),
         row["timestamp"],
         row["source"],
         row["author"],
