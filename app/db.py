@@ -13,7 +13,7 @@ def init_db():
                  incident_id VARCHAR,
                  timestamp TIMESTAMP,
                  source VARCHAR,
-                 author VARCHARm
+                 author VARCHAR,
                  event_type VARCHAR,
                  content VARCHAR
                  );    
