@@ -1,6 +1,7 @@
 import typer 
 from db import init_db
 from ingest import ingest_csv
+from timeline import get_timeline
 
 app = typer.Typer()
 
@@ -16,7 +17,12 @@ def init():
 @app.command()
 def ingest(path:str):
     ingest_csv(path)
-    print(f"Ingest CSV from {path}")
+    print(f"Ingested CSV from {path}")
 
+@app.command()
+def timeline(incident_id: str):
+    rows = get_timeline(incident_id)
+    for r in rows:
+        print(r)
 if __name__ == "__main__":
     app()
