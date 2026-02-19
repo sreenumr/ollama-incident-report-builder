@@ -24,6 +24,10 @@ def generate_report(timeline_text : str) -> Report:
 
         Timeline:
     {timeline_text}
+
+        If code changes are mentioned in the timeline,
+        include them explicitly in the root_cause section when relevant.
+        Explain how the change relates to the observed errors.
     """
 
     payload = {
@@ -49,3 +53,6 @@ def generate_report(timeline_text : str) -> Report:
         raise RuntimeError(f"LLM did not return valid JSON:\n{raw}") from e
 
     return Report(**parsed)
+
+def generate_blog_post(timeline_text : str)-> None:
+    pass
