@@ -65,6 +65,15 @@ def generate(incident_id: str):
 
     print(f"Report generated at {path} for incident {incident_id}")
 
+@app.command()
+def register_incident(incident_id:str, repo:str, branch:str, start:str, end:str):
+    conn = get_connection()
+    conn.execute("""
+    INSERT OR REPLACE INTO incidents VALUES(?,?,?,?,?)
+""")
+    conn.close()
+    print("Incident registered")
+
 if __name__ == "__main__":
     app()
 
