@@ -68,9 +68,10 @@ def generate(incident_id: str):
 @app.command()
 def register_incident(incident_id:str, repo:str, branch:str, start:str, end:str):
     conn = get_connection()
+    #REPLACE used just in case we need to re-register incidents, for production : ON CONFLICT DO NOT UPDATE
     conn.execute("""
     INSERT OR REPLACE INTO incidents VALUES(?,?,?,?,?)
-""")
+""",(incident_id, repo, branch, start, end))
     conn.close()
     print("Incident registered")
 
