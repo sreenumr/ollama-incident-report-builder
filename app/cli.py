@@ -75,6 +75,12 @@ def register_incident(incident_id:str, repo:str, branch:str, start:str, end:str)
     conn.close()
     print("Incident registered")
 
+@app.command()
+def ingest_repo(incident_id:str):
+    from repo_context import ingest_repo_context
+    ingest_repo_context(incident_id)
+    print("Repo context ingested Succesfully!")
+
 if __name__ == "__main__":
     app()
 

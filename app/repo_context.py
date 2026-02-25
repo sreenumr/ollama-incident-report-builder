@@ -55,3 +55,4 @@ def ingest_repo_context(incident_id:str):
                 conn.execute(
                     "INSERT INTO commit_files VALUES (?,?)",(commit_hash, file.strip())
                 )
+        conn.close()
