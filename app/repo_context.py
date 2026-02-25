@@ -56,3 +56,34 @@ def ingest_repo_context(incident_id:str):
                     "INSERT INTO commit_files VALUES (?,?)",(commit_hash, file.strip())
                 )
         conn.close()
+
+def build_repo_context(incident_id: str) -> str:
+    con = get_connection()
+
+    commits = con.execute(
+        "SELECT hash, message FROM commits WHERE incident_id = ?",
+        (incident_id,)
+    ).fetchall()
+
+    if not commits:
+        con.close()
+        return "No repository changes detected in incident window."
+
+    context_lines = []
+
+    for commit_hash, message in commits:
+        files = con.execute(
+            "SELECT file_path FROM commit_files WHERE commit_hash = ?",
+            (commit_hash,)
+        ).fetchall()
+
+        file_list = [f[0] for f in files]
+
+        context_lines.append(
+            f"Commit {commit_hash[:7]}: {message}\n"
+            f"Files changed: {', '.join(file_list) if file_list else 'None'}"
+        )
+
+    con.close()
+
+    return "Repository Changes:\n\n" + "\n\n".join(context_lines)
