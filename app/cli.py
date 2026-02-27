@@ -5,7 +5,7 @@ from timeline import get_timeline
 from llm import generate_report
 from render import render_markdown
 from datetime import datetime
-
+from repo_context import build_repo_context
 app = typer.Typer()
 
 @app.command()
@@ -44,8 +44,14 @@ def generate(incident_id: str):
     timeline_text = "\n".join(lines)
 
     #Call LLM
-    report = generate_report(timeline_text)
+    repo_conext = build_repo_context(incident_id)
+    full_input = f"""
+    Incident Timeline:
+    {timeline_text}
 
+    {repo_conext}
+"""
+    report = generate_report(timeline_text)
     #Render .md
     md = render_markdown(report, incident_id)
 
