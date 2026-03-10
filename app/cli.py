@@ -45,13 +45,13 @@ def generate(incident_id: str):
     timeline_text = "\n".join(lines)
 
     #Call LLM
-    repo_conext = build_repo_context(incident_id)
+    repo_context = build_repo_context(incident_id)
     full_input = f"""
     Incident Timeline:
     {timeline_text}
 
-    {repo_conext}
-"""
+    {repo_context}
+    """
     
     cache_key = build_cache_key(incident_id, timeline_text, repo_context)
 
