@@ -6,6 +6,7 @@ from llm import generate_report
 from render import render_markdown
 from datetime import datetime
 from repo_context import build_repo_context
+from cache import build_cache_key, get_cached_report, set_cached_report
 app = typer.Typer()
 
 @app.command()
@@ -51,10 +52,19 @@ def generate(incident_id: str):
 
     {repo_conext}
 """
+    
+    cache_key = build_cache_key(incident_id, timeline_text, repo_context)
+
+    cached = get_cached_report(cache_key)
+    if cached:
+        print("Cache hit — returning cached report")
+        print(cached)
+        return
+
     report = generate_report(timeline_text)
     #Render .md
     md = render_markdown(report, incident_id)
-
+    set_cached_report(cache_key, md)
     #Save to DuckDB
     conn = get_connection()
     conn.execute("""
